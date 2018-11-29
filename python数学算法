@@ -1,6 +1,89 @@
-//递归
+递归
 def fact(n):
-  if n<=1:
-    return 1
+    if n <= 1:
+        return 1
+    else:
+      return n * fact(n - 1)
+斐波那契数列: 第0项是0，第1项是1,从第2项开始，每一项都等于前两项之和
+def fib(n):
+  i = 2
+  arr = [0, 1]
+  while n > 2:
+    arr.append(arr[i - 1] + arr[i - 2])
+    n -= 1
+    i += 1
+  return arr
+
+//
+MemoTable = {}
+
+def MemoizedFib(n):
+    if n <= 2:
+        return 1
+
+    if n in MemoTable:
+        return MemoTable[n]
+
+    MemoTable[n] = MemoizedFib(n-1) + MemoizedFib(n-2)
+    return MemoTable[n]
+利用牛顿迭代法求平方根
+def sqrt(x):
+    def average(a, b):
+        return (a + b) / 2.0
+
+    def is_good_enough(guess):
+        return (abs((guess * guess) - x) < 0.001)
+
+    def improve(guess):
+        return average(guess, x / guess)
+
+    def sqrt_iter(guess):
+        if is_good_enough(guess):
+            return guess
+        else:
+            return sqrt_iter(improve(guess))
+
+    return sqrt_iter(1.0)
+求最大公约等数
+def gcd(x, y):
+    result = x
+    if y != 0:
+        result = gcd(y, x % y)
+    return result
+汉诺塔
+def TowerOfHanoi(n, a, b, tmp):
+    if n == 1:
+        b.append(a.pop())
+    else:
+        TowerOfHanoi(n-1, a, tmp, b)
+        b.append(a.pop())
+        TowerOfHanoi(n-1, tmp, b, a)
+        
+stack1 = [4,3,2,1]
+stack2 = []
+stack3 = []
+      
+TowerOfHanoi(len(stack1), stack1, stack3, stack2)
+list map
+def map(func, lst):
+  if lst == []:
+    return []
   else:
-    return n*fact(n-1)
+    return [func(lst[0])] + map(func, lst[1:])
+
+def halveElements(lst):
+    return map(lambda x: x / 2.0, lst)
+
+input = [2, 4, 6, 8, 10]
+output = halveElements(input)
+求平方和
+def summation(low, high, f, next):
+    s = 0
+    x = low
+    while x <= high:
+        s = s + f(x)
+        x = next(x)
+    return s
+
+def sumsquares(low, high):
+    return summation(low, high, lambda x: x**2, lambda x: x+1)    
